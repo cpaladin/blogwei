@@ -1,5 +1,7 @@
 ---
 title: 使用hexo和github搭建个人博客
+date: 2016-03-10 18:43:27
+tags: [hexo,github]
 ---
 
 一、安装hexo
