@@ -13,3 +13,6 @@ hexo中文安装文档：https://hexo.io/zh-cn/docs/index.html
 
 二、发布到github
 参考：https://hexo.io/zh-cn/docs/deployment.html
+1. 
+2.
+
