@@ -1,6 +1,6 @@
 ---
 title: 使用 hexo 和 github 搭建个人博客
-date: 2016-03-10 19:43:27
+date: 2016-03-12 12:37:27
 tags: [hexo,github]
 ---
 
