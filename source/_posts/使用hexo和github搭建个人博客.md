@@ -61,7 +61,7 @@ $ npm install hexo-deployer-git --save
 $ hexo g
 $ hexo d
 ```
-  github 自动为 gh-pages 分支分配了地址，作为项目主页展示，形如： http://cpaladin.github.io/blogwei 。关于 github pages 请参考 https://help.github.com/categories/github-pages-basics/ 。
+  github 自动为 gh-pages 分支分配了地址，作为项目主页展示，形如： http://cpaladin.github.io/blogwei ，请在仓库的设置菜单里查看自己的地址。关于 github pages 请参考 https://help.github.com/categories/github-pages-basics/ 。
 
 # 四、在其他机器上发布博客
   主要是利用 github 在博客仓库下新建一个 master 分支保存博客的原始文件。 
