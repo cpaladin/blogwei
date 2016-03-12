@@ -1,7 +1,8 @@
 ---
 title: 使用 hexo 和 github 搭建个人博客
 date: 2016-03-12 12:37:27
-banner: http://b336.photo.store.qq.com/psb?/V10Xo6bq4XIROJ/cbG6BfSFwocUaGs7H77p*SVolBiXzM*K.DSvxHUvjRQ!/b/dBadSMi*DQAA&bo=xgOAAkAGJAQBAAY!&rf=viewer_4&t=5
+banner: http://cpaladin.github.io/blogwei/images/default.jpeg
+
 tags:
 - hexo
 - github
