@@ -52,7 +52,7 @@ $ hexo g
 # 三、发布到 github
   详情参考： https://hexo.io/zh-cn/docs/deployment.html
   **请先在 github 新建一个仓库blogwei，用于个人博客；然后把本机的 ssh public key 添加到仓库设置菜单（Settings）中的Deploy Keys选项里**
-1. 修改博客配置 `_config.yml`（注意type和repo分号后面有空格）：
+1. 修改博客配置 `_config.yml`（注意type和repo分号后面有`空格`）：
 ```  
 deploy:
   type: git
