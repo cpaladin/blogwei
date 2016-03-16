@@ -15,7 +15,7 @@ customize:
         url: images/logo.png
     profile:
         enabled: true # Whether to show profile bar
-#        avatar: css/images/avatar.png
+        avatar: images/head.jpg
         gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
         author: 枫叶上的毛蟲
         author_title: ""
