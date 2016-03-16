@@ -51,8 +51,8 @@ $ hexo g
 	
 # 三、发布到 github
   详情参考： https://hexo.io/zh-cn/docs/deployment.html
-  **请先在 github 新建一个仓库，用于个人博客；然后把本机的 ssh public key 添加到仓库中**
-1. 修改博客配置 `_config.yml`：
+  **请先在 github 新建一个仓库blogwei，用于个人博客；然后把本机的 ssh public key 添加到仓库设置菜单（Settings）中的Deploy Keys选项里**
+1. 修改博客配置 `_config.yml`（注意type和repo分号后面有空格）：
 ```  
 deploy:
   type: git
@@ -67,8 +67,8 @@ $ npm install hexo-deployer-git --save
 $ hexo g
 $ hexo d
 ```
-  github 自动为 gh-pages 分支分配了地址，作为项目主页展示，形如： http://cpaladin.github.io/blogwei ，请在仓库的设置菜单里查看自己的地址。关于 github pages 请参考 https://help.github.com/categories/github-pages-basics/ 。
-
+  github 自动为 gh-pages 分支分配了地址，作为项目主页展示，形如： http://cpaladin.github.io/blogwei ，请在仓库的设置菜单（Settings）里查看自己的地址。关于 github pages 请参考 https://help.github.com/categories/github-pages-basics/ 。
+  **目前访问 http://cpaladin.github.io/blogwei 显示有问题，只作为演示。个人博客已迁移到 http://blog.twocater.com 。**
 # 四、在其他机器上发布博客
   主要是利用 github 在博客仓库下新建一个 master 分支保存博客的原始文件。 
 1. 在原来的博客根目录下，执行：
