@@ -1,9 +1,9 @@
 v1.9.3
-
 apr-1.5.2
-apr-util-1.5.4
 
 curl -O http://mirrors.cnnic.cn/apache/subversion/subversion-1.9.3.tar.gz
+
+apr-util-1.5.4
 tar zxvf subversion-1.9.3.tar.gz
 cd subversion-1.9.3
 
