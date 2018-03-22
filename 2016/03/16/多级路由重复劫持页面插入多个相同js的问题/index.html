@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>多级路由重复劫持页面导致插入多个相同 js 的问题 | 茶小乖的土地</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="路由器劫持  路由器通过劫持 http 响应包并 注入JS ，进而播放广告。  如果路由器直接上网是没有问题的。后来把路由器（假设为路由器A）的上网模式改成了无线中继，让路由器 A 通过路由器 B 间接上网（路由器 A 和 B 都有相同的劫持功能），此时返回的 http 页面就会有两条相同的 JS。原因很明显，路由器 A 和路由器 B 对同一个 http 响应先后注入了 JS。这样的话，就会执行两">
+<meta name="keywords" content="路由,劫持,js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多级路由重复劫持页面导致插入多个相同 js 的问题">
+<meta property="og:url" content="http://blog.twocater.com/2016/03/16/多级路由重复劫持页面插入多个相同js的问题/index.html">
+<meta property="og:site_name" content="茶小乖的土地">
+<meta property="og:description" content="路由器劫持  路由器通过劫持 http 响应包并 注入JS ，进而播放广告。  如果路由器直接上网是没有问题的。后来把路由器（假设为路由器A）的上网模式改成了无线中继，让路由器 A 通过路由器 B 间接上网（路由器 A 和 B 都有相同的劫持功能），此时返回的 http 页面就会有两条相同的 JS。原因很明显，路由器 A 和路由器 B 对同一个 http 响应先后注入了 JS。这样的话，就会执行两">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-20T12:14:09.570Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多级路由重复劫持页面导致插入多个相同 js 的问题">
+<meta name="twitter:description" content="路由器劫持  路由器通过劫持 http 响应包并 注入JS ，进而播放广告。  如果路由器直接上网是没有问题的。后来把路由器（假设为路由器A）的上网模式改成了无线中继，让路由器 A 通过路由器 B 间接上网（路由器 A 和 B 都有相同的劫持功能），此时返回的 http 页面就会有两条相同的 JS。原因很明显，路由器 A 和路由器 B 对同一个 http 响应先后注入了 JS。这样的话，就会执行两">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?96ec8431956f5b7debdcd2f1bc9f4c70";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">茶小乖的土地</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/images/head.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form" method="GET" action="https://www.baidu.com/s?">
+    <input name="wd" type="text" class="search-form-input" placeholder="搜索" />
+    <button type="submit" class="search-form-submit"></button>
+</form>
+<script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:blog.twocater.com ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <form class="search-form" method="GET" action="https://www.baidu.com/s?">
+    <input name="wd" type="text" class="search-form-input" placeholder="搜索" />
+    <button type="submit" class="search-form-submit"></button>
+</form>
+<script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:blog.twocater.com ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/images/head.jpg" />
+            <h2 id="name">枫叶上的毛蟲</h2>
+            <h3 id="title"></h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国 广东</span>
+            <a id="follow" target="_blank" href="https://github.com/cpaladin/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                4
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                10
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="https://github.com/cpaladin/" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="weixin"><i class="fa fa-weixin"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-多级路由重复劫持页面插入多个相同js的问题" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            多级路由重复劫持页面导致插入多个相同 js 的问题
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/03/16/多级路由重复劫持页面插入多个相同js的问题/">
+            <time datetime="2016-03-16T04:00:00.000Z" itemprop="datePublished">2016-03-16</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/技术文章/">技术文章</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/js/">js</a>, <a class="tag-link" href="/tags/劫持/">劫持</a>, <a class="tag-link" href="/tags/路由/">路由</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="路由器劫持"><a href="#路由器劫持" class="headerlink" title="路由器劫持"></a>路由器劫持</h1><p>  路由器通过劫持 http 响应包并 <code>注入JS</code> ，进而播放广告。<br>  如果路由器直接上网是没有问题的。后来把路由器（假设为路由器A）的上网模式改成了<code>无线中继</code>，让路由器 A 通过路由器 B 间接上网（路由器 A 和 B 都有相同的劫持功能），此时返回的 http 页面就会有两条相同的 JS。原因很明显，路由器 A 和路由器 B 对同一个 http 响应先后注入了 JS。这样的话，就会执行两个相同的 JS。那么应该如何避免这种情况呢？</p>
+<h2 id="方案一：路由器级别实现"><a href="#方案一：路由器级别实现" class="headerlink" title="方案一：路由器级别实现"></a>方案一：路由器级别实现</h2><p>  一种方案是，让这些被中继的路由器（非客户端直连的路由，上级路由），不要注入 JS。上级路由是可以知道哪些下级路由中继了它，以及分配给它们的 ip 地址，还有它们的 mac 地址。那么当一个 http 响应返回时，上级路由可以根据响应包的目标地址判断这个响应包是要转发给用户终端还是下级路由。如果是要转发给下级路由，则不用注入jS。</p>
+<h2 id="方案二：在业务层实现"><a href="#方案二：在业务层实现" class="headerlink" title="方案二：在业务层实现"></a>方案二：在业务层实现</h2><p>   路由器不做任何处理，在 JS 以及与 JS 交互的服务器实现。由于路由器注入 JS 时也会把请求连接的设备 mac 一并注入，那么就可以在 JS 或者服务器判断这个设备 mac 究竟是手机的 mac，还是下级路由器的 mac（路由器的 mac 会有特定的标识）。如果是下级路由器的 mac，那么就退出执行这个 JS。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="http://blog.twocater.com/2016/03/16/多级路由重复劫持页面插入多个相同js的问题/#comments" class="article-comment-link ds-thread-count" data-thread-key="2016/03/16/多级路由重复劫持页面插入多个相同js的问题/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/03/25/分布式Session/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    分布式 Session
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/03/12/使用hexo和github搭建个人博客/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">使用 hexo 和 github 搭建个人博客</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/03/16/多级路由重复劫持页面插入多个相同js的问题/" data-title="多级路由重复劫持页面导致插入多个相同 js 的问题" data-url="http://blog.twocater.com/2016/03/16/多级路由重复劫持页面插入多个相同js的问题/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/25/Java String 的 hashCode/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/个人笔记/">个人笔记</a></p>
+                            <p class="item-title"><a href="/2016/03/25/Java String 的 hashCode/" class="title">Java String 的 hashCode</a></p>
+                            <p class="item-date"><time datetime="2016-03-25T07:14:00.000Z" itemprop="datePublished">2016-03-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/25/分布式Session/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/技术文章/">技术文章</a></p>
+                            <p class="item-title"><a href="/2016/03/25/分布式Session/" class="title">分布式 Session</a></p>
+                            <p class="item-date"><time datetime="2016-03-25T02:38:00.000Z" itemprop="datePublished">2016-03-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/16/多级路由重复劫持页面插入多个相同js的问题/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/技术文章/">技术文章</a></p>
+                            <p class="item-title"><a href="/2016/03/16/多级路由重复劫持页面插入多个相同js的问题/" class="title">多级路由重复劫持页面导致插入多个相同 js 的问题</a></p>
+                            <p class="item-date"><time datetime="2016-03-16T04:00:00.000Z" itemprop="datePublished">2016-03-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/12/使用hexo和github搭建个人博客/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://cpaladin.github.io/blogwei/images/default.jpeg)" alt="使用 hexo 和 github 搭建个人博客" class="thumbnail-image"></span>
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/技术文章/">技术文章</a></p>
+                            <p class="item-title"><a href="/2016/03/12/使用hexo和github搭建个人博客/" class="title">使用 hexo 和 github 搭建个人博客</a></p>
+                            <p class="item-date"><time datetime="2016-03-12T04:37:27.000Z" itemprop="datePublished">2016-03-12</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/个人笔记/">个人笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术文章/">技术文章</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Session/">Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hashCode/">hashCode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分布式-Session/">分布式 Session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/劫持/">劫持</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/路由/">路由</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hashCode/" style="font-size: 10px;">hashCode</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/分布式-Session/" style="font-size: 10px;">分布式 Session</a> <a href="/tags/劫持/" style="font-size: 10px;">劫持</a> <a href="/tags/路由/" style="font-size: 10px;">路由</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://shuovr.cn">逗比邦邦的博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 枫叶上的毛蟲<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'blogwei'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
