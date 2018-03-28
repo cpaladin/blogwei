@@ -1,20 +1,18 @@
 ---
 title: 使用 hexo 和 github 搭建个人博客
 date: 2016-03-12 12:37:27
-banner:
+
+photos:
+- https://www.hdwallpapers.net/previews/starry-night-over-corsica-986.jpg
+- https://www.hdwallpapers.net/previews/water-plant-close-up-979.jpg
+- https://www.hdwallpapers.net/previews/starry-night-over-corsica-986.jpg
+- https://www.hdwallpapers.net/previews/water-plant-close-up-979.jpg
 
 tags:
 - hexo
 - github
 categories:
 - 技术文章
-
-photos:
-- http://cpaladin.github.io/blogwei/images/default.jpeg
-- https://www.hdwallpapers.net/previews/starry-night-over-corsica-986.jpg
-- https://www.hdwallpapers.net/previews/water-plant-close-up-979.jpg
-- https://www.hdwallpapers.net/previews/starry-night-over-corsica-986.jpg
-- https://www.hdwallpapers.net/previews/water-plant-close-up-979.jpg
 
 ---
 

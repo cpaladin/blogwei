@@ -1,26 +1,36 @@
 (function($){
-    var toTop = $('#toTop').length ? $('#toTop').offset().top - $(window).height() + 20 : 0;
-
+    var toTop = ($('#sidebar').height() - $(window).height()) + 60;
     // Caption
-    $('.article-entry').each(function(i){
-        $(this).find('img').each(function(){
-            if ($(this).parent().hasClass('fancybox')) {
-                return;
-            }
-            var alt = this.alt;
-            if (alt) {
-                $(this).after('<span class="caption">' + alt + '</span>');
+    $('.article-entry').each(function(i) {
+        $(this).find('img').filter(function (element) {
+            return $(this).hasClass('');
+        }).each(function() {
+            // add image caption
+            if (this.alt && !(!!$.prototype.justifiedGallery && $(this).parent('.justified-gallery').length)) {
+                $(this).after('<span class="caption">' + this.alt + '</span>');
             }
 
-            $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-        });
-
-        $(this).find('.fancybox').each(function(){
-            $(this).attr('rel', 'article' + i);
+            if ($(this).parent().prop("tagName") !== 'A') {
+                $(this).wrap('<a href="' + ($(this).attr("data-imgbig") ? $(this).attr("data-imgbig") : this.src) + '" title="' + this.alt + '" class="gallery-item"></a>');
+            }
         });
     });
-    if ($.fancybox){
-        $('.fancybox').fancybox();
+    if (typeof lightGallery != 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        $('.article-entry').each(function(i, entry) {
+            lightGallery(entry, options);
+        });
+        lightGallery($('.article-gallery')[0], options);
+    }
+    if (!!$.prototype.justifiedGallery) {  // if justifiedGallery method is defined
+        var options = {
+            rowHeight: 140,
+            margins: 4,
+            lastRow: 'justify'
+        };
+        $('.justified-gallery').justifiedGallery(options);
     }
 
     // Profile card
@@ -34,20 +44,22 @@
     });
 
     // To Top
-    $(document).on('scroll', function () {
-        if ($(document).width() >= 800) {
-            if($(this).scrollTop() > toTop) {
-                $('#toTop').addClass('fix');
-                $('#toTop').css('left', $('#sidebar').offset().left);
+    if ($('#sidebar').length) {
+        $(document).on('scroll', function () {
+            if ($(document).width() >= 800) {
+                if(($(this).scrollTop() > toTop) && ($(this).scrollTop() > 0)) {
+                    $('#toTop').fadeIn();
+                    $('#toTop').css('left', $('#sidebar').offset().left);
+                } else {
+                    $('#toTop').fadeOut();
+                }
             } else {
-                $('#toTop').removeClass('fix');
+                $('#toTop').fadeIn();
+                $('#toTop').css('right', 20);
             }
-        } else {
-            $('#toTop').addClass('fix');
-            $('#toTop').css('right', 20);
-        }
-    }).on('click', '#toTop', function () {
-        $('body, html').animate({ scrollTop: 0 }, 600);
-    });
+        }).on('click', '#toTop', function () {
+            $('body, html').animate({ scrollTop: 0 }, 600);
+        });
+    }
 
 })(jQuery);

@@ -69,8 +69,10 @@ theme: icarus
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-- type: git
-  repo: git@github.com:cpaladin/blogwei.git
+-  type: rsync
+   host: 118.24.107.145
+   user: root
+   root: /mydata/htdocs/blog.twocater.com
 - type: baidu_url_submitter
 
 baidu_url_submit:

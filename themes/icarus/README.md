@@ -1,4 +1,4 @@
-#Icarus
+# Icarus
 
 ### The blog theme you may fall in love with, coming to Hexo. [Preview](http://ppoffice.github.io/hexo-theme-icarus/)
 ![](http://ppoffice.github.io/hexo-theme-icarus/gallery/preview.png "")
@@ -14,19 +14,19 @@ A nice place to show yourself. You can add your own information in your site's `
 
 ![](http://ppoffice.github.io/hexo-theme-icarus/gallery/profile.png "")
 
-### Custom Search Engines
-Icarus uses Google as default search engine, but also provide custom search engines such as Swiftype and Baidu.
+### Self-hosted Insite Search Engine
+With the help of [Insight Search](https://github.com/ppoffice/hexo-theme-icarus/wiki/Search#insight-search), you can search anything inside your site without any third-party plugin.
 
-![](https://ooo.0o0.ooo/2016/02/08/56b883cdd2e17.png)
+![](http://ppoffice.github.io/hexo-theme-icarus/gallery/insight-search.png "")
 
 ### Custom Comment Services
 Icarus supports several comment services, give you better choices to communicate with your readers.
 
-![](https://ooo.0o0.ooo/2016/02/08/56b884a1e2bc6.png)
+![](http://ppoffice.github.io/hexo-theme-icarus/gallery/custom-comments.png "")
 
 ### Post Banner & Thumbnail
 
-Thanks to [atika](https://github.com/atika), you can now add thumbnails and banners to every post to create better reading experience.
+Thanks to [atika](https://github.com/atika), you can now [add thumbnails or banners](https://github.com/ppoffice/hexo-theme-icarus/wiki/Theme#thumbnail) to every post to create better reading experience.
 
 ### Responsive Layout
 
@@ -38,13 +38,15 @@ Icarus knows on what screen size you are browsering the website, and reorganize 
 
 Get your categories and tags listed in single pages to make your blog more methodic.
 
-### Fancybox
+### lightgallery
 
-Icarus uses [Fancybox] to showcase your photos. You can use Markdown syntax or fancybox tag plugin to add your photos.
+Icarus uses [lightgallery.js](https://sachinchoolur.github.io/lightgallery.js/) to showcase your photos. Just enable it in your configuration, and that's all!
 
-```
-![img caption](img url)
-```
+![](http://ppoffice.github.io/hexo-theme-icarus/gallery/lightgallery.jpg "")
+
+### Justified Gallery
+
+You can also use [justifiedgallery.js](http://miromannino.github.io/Justified-Gallery/) to display a photo grid within your posts. Just enable it in your configuration, and place your photos in a div with the class .justified-gallery
 
 ### Sidebar
 
