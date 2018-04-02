@@ -1,19 +1,11 @@
----
 title: 使用 hexo 和 github 搭建个人博客
 date: 2016-03-12 12:37:27
-
-photos:
-- https://www.hdwallpapers.net/previews/starry-night-over-corsica-986.jpg
-- https://www.hdwallpapers.net/previews/water-plant-close-up-979.jpg
-- https://www.hdwallpapers.net/previews/starry-night-over-corsica-986.jpg
-- https://www.hdwallpapers.net/previews/water-plant-close-up-979.jpg
-
+banner: /images/default.jpeg
 tags:
 - hexo
 - github
 categories:
 - 技术文章
-
 ---
 
 # 一、安装 hexo
@@ -31,6 +23,8 @@ $ cd blog
 $ npm install
 $ hexo server	启动服务器，可以在本地 http://localhost:4000 浏览博客，搭建成功。
 ```
+
+<!-- more -->
 4. 配置_config.yml
 	
 	根据个人需要修改博客配置，参考 https://hexo.io/zh-cn/docs/configuration.html

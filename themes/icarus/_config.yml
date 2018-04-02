@@ -32,6 +32,7 @@ customize:
 #        dribbble: /
         weixin: /
         rss: /
+    social_link_tooltip: true
 
 # Widgets
 widgets:
@@ -58,11 +59,13 @@ share: jiathis # options: jiathis, bdshare, addtoany, default
 
 # Plugins
 plugins:
-    fancybox: true # options: true, false
+#    fancybox: true # options: true, false
+    lightgallery: true
+    justifiedgallery: true
     google_analytics: # enter the tracking ID for your Google Analytics
     google_site_verification: # enter Google site verification code
-    baidu_analytics: e4933d4b0447c646c914663c63855888 # enter Baidu Analytics hash key
-    lightgallery: true
+#    baidu_analytics: e4933d4b0447c646c914663c63855888 # enter Baidu Analytics hash key
+    mathjax: false
 
 # Miscellaneous
 miscellaneous:
