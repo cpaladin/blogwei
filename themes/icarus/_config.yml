@@ -50,9 +50,14 @@ search:
 
 # Comment
 comment:
-    disqus: blog-twocater-com #hexo-theme-icarus # enter disqus shortname here
+    disqus: #blog-twocater-com #hexo-theme-icarus # enter disqus shortname here
     duoshuo: #blogwei # enter duoshuo shortname here
     youyan: #2159649
+    changyan:
+      appid: cytM8ur9v
+      conf: prod_0de12c7d02a6bb8d43d1cba40801f12a
+
+
 
 # Share
 share: jiathis # options: jiathis, bdshare, addtoany, default
@@ -77,3 +82,4 @@ miscellaneous:
     links:
         Hexo: http://hexo.io
         逗比邦邦的博客: http://shuovr.cn
+        袁大师: http://yuanmomo.net
